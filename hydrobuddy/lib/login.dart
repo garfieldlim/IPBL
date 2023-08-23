@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:hydrobuddy/app_localizations.dart';
+import 'package:hydrobuddy/mqttgrafana.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -158,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
+                                builder: (context) => GrafanaIframeScreen()),
                           );
                         }),
                   ],
