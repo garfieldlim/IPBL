@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hydrobuddy/achievements.dart';
 import 'dart:io';
 import 'package:hydrobuddy/buddy.dart';
 import 'package:hydrobuddy/journal_screen.dart';
@@ -161,7 +162,10 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
       children: [
         ElevatedButton(
           onPressed: () {
-            // Handle Achievements button press
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AchievementsScreen()),
+            );
           },
           child: const Text('Achievements'),
         ),
