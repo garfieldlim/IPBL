@@ -15,6 +15,7 @@ class _PlantIDScreenState extends State<PlantIDScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? _selectedImage;
   String? plantName;
+  String? plantInfo; // New variable to store plant information
 
   Future<void> pickImage() async {
     try {
@@ -47,6 +48,8 @@ class _PlantIDScreenState extends State<PlantIDScreen> {
 
         setState(() {
           plantName = data['plant_name'];
+          plantInfo =
+              data['plant_info']; // New line: Extracting plant information
         });
       } else {
         // Handle the error.
@@ -72,10 +75,20 @@ class _PlantIDScreenState extends State<PlantIDScreen> {
                   if (plantName != null)
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Identified as: $plantName',
-                        style: TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Identified as: $plantName',
+                            style: TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            plantInfo ?? "", // Display the plant info
+                            style: TextStyle(fontSize: 18),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     ),
                 ],

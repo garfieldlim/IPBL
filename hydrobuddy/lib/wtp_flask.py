@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import requests
 import base64
+import openai
 
 app = Flask(__name__)
 
@@ -21,7 +22,10 @@ def identify_plant():
     if not plant_name:
         return jsonify({"error": "Failed to identify the plant."}), 500
 
-    return jsonify({"plant_name": plant_name})
+    # Get OpenAI response for the plant
+    plant_info = generate_response(plant_name)
+
+    return jsonify({"plant_name": plant_name, "plant_info": plant_info})
 
 
 def get_plant_name_from_image(image_base64):
@@ -61,6 +65,29 @@ def get_plant_name_from_image(image_base64):
 def convert_image_to_base64(image_file):
     return base64.b64encode(image_file.read()).decode('utf-8')
 
+def generate_response(prompt):
+    # Format the input as per the desired conversation format
+    openai.api_key = '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'
+    conversation = [
+        {'role': 'system', 'content': """You are Hydrobuddy. You will return a paragraph of how to hydroponically grow this plant:"""},
+        {'role': 'user', 'content': prompt},
+    ]
+    
+    # Convert the conversation to a string  
+    conversation_str = ''.join([f'{item["role"]}: {item["content"]}\n' for item in conversation])
+
+    response = openai.ChatCompletion.create(
+      model="gpt-3.5-turbo",
+      messages=conversation,
+      temperature=1,
+      max_tokens=1000,
+      top_p=1,
+      frequency_penalty=0,
+      presence_penalty=0
+    )
+    
+    generated_text = response['choices'][0]['message']['content']
+    return generated_text  # Return the generated text
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'journal_screen.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class AddJournalEntryScreen extends StatefulWidget {
   const AddJournalEntryScreen({super.key});
@@ -12,6 +14,8 @@ class _AddJournalEntryScreenState extends State<AddJournalEntryScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   ImageProvider? imageProvider;
+  final ImagePicker _picker = ImagePicker();
+  XFile? _selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +27,14 @@ class _AddJournalEntryScreenState extends State<AddJournalEntryScreen> {
           children: [
             ElevatedButton(
               onPressed: () async {
-                // For this demonstration, just using a placeholder image.
-                // In a real scenario, you'd integrate an image picker.
-                imageProvider = const NetworkImage('https://via.placeholder.com/150');
-                setState(() {});
+                final pickedImage =
+                    await _picker.pickImage(source: ImageSource.gallery);
+                if (pickedImage != null) {
+                  setState(() {
+                    _selectedImage = pickedImage;
+                    imageProvider = FileImage(File(_selectedImage!.path));
+                  });
+                }
               },
               child: const Text('Add Photo'),
             ),
