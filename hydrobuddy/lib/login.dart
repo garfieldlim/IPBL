@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           DropdownButton<String>(
             value: _selectedLanguage,
-            items: <String>['en', 'es'].map((String value) {
+            items: <String>['en', 'zh_TW', 'ja'].map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
