@@ -107,14 +107,14 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
                           dataPoints = tdsDataPoints;
                           title = 'TDS Sensor';
                           break;
-                        // case 1:
-                        //   dataPoints = wifiRssiDataPoints;
-                        //   title = 'Wi-Fi RSSI';
-                        //   break;
-                        // case 2:
-                        //   dataPoints = waterLevelDataPoints;
-                        //   title = 'Water Level';
-                        //   break;
+                        case 1:
+                          dataPoints = wifiRssiDataPoints;
+                          title = 'Wi-Fi RSSI';
+                          break;
+                        case 2:
+                          dataPoints = waterLevelDataPoints;
+                          title = 'Water Level';
+                          break;
                       }
                       return _buildChart(dataPoints, title);
                     },
