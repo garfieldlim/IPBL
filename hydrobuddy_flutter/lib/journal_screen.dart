@@ -1,68 +1,61 @@
-import 'package:flutter/material.dart';
-import 'package:hydrobuddy_flutter/add_journal_entry_screen.dart';
+import 'dart:io';
 
-class JournalEntry {
-  final String title;
-  final DateTime date;
-  final String content;
-  final ImageProvider image;
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 
-  JournalEntry(this.title, this.date, this.content, this.image);
-}
+Future<MqttServerClient> setupMQTTClient() async {
+  final client =
+      MqttServerClient('x09ef00e.ala.us-east-1.emqxsl.com', 'flutter_client');
 
-class JournalScreen extends StatefulWidget {
-  @override
-  _JournalScreenState createState() => _JournalScreenState();
-}
+  client.port = 8883;
+  client.logging(on: true);
+  client.secure = true;
 
-class _JournalScreenState extends State<JournalScreen> {
-  List<JournalEntry> entries = [];
+  // Security context for SSL/TLS
+  client.securityContext = """-----BEGIN CERTIFICATE-----
+MIIDrzCCApegAwIBAgIQCDvgVpBCRrGhdWrJWZHHSjANBgkqhkiG9w0BAQUFADBh
+MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3
+d3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD
+QTAeFw0wNjExMTAwMDAwMDBaFw0zMTExMTAwMDAwMDBaMGExCzAJBgNVBAYTAlVT
+MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j
+b20xIDAeBgNVBAMTF0RpZ2lDZXJ0IEdsb2JhbCBSb290IENBMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jvhEXLeqKTTo1eqUKKPC3eQyaKl7hLOllsB
+CSDMAZOnTjC3U/dDxGkAV53ijSLdhwZAAIEJzs4bg7/fzTtxRuLWZscFs3YnFo97
+nh6Vfe63SKMI2tavegw5BmV/Sl0fvBf4q77uKNd0f3p4mVmFaG5cIzJLv07A6Fpt
+43C/dxC//AH2hdmoRBBYMql1GNXRor5H4idq9Joz+EkIYIvUX7Q6hL+hqkpMfT7P
+T19sdl6gSzeRntwi5m3OFBqOasv+zbMUZBfHWymeMr/y7vrTC0LUq7dBMtoM1O/4
+gdW7jVg/tRvoSSiicNoxBN33shbyTApOB6jtSj1etX+jkMOvJwIDAQABo2MwYTAO
+BgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUA95QNVbR
+TLtm8KPiGxvDl7I90VUwHwYDVR0jBBgwFoAUA95QNVbRTLtm8KPiGxvDl7I90VUw
+DQYJKoZIhvcNAQEFBQADggEBAMucN6pIExIK+t1EnE9SsPTfrgT1eXkIoyQY/Esr
+hMAtudXH/vTBH1jLuG2cenTnmCmrEbXjcKChzUyImZOMkXDiqw8cvpOp/2PV5Adg
+06O/nVsJ8dWO41P0jmP6P6fbtGbfYmbW0W5BjfIttep3Sp+dWOIrWcBAI+0tKIJF
+PnlUkiaY4IBIqDfv8NZ5YBberOgOzW6sRBc4L0na4UU+Krk2U886UAb3LujEV0ls
+YSEY1QSteDwsOoBrp+uvFRTp2InBuThs4pFsiv9kuXclVzDAGySj4dzp30d8tbQk
+CAUw7C29C79Fv1C5qfPrmAESrciIxpg0X40KPMbp1ZWVbd4=
+-----END CERTIFICATE-----"""
+      as SecurityContext; // Set up your SSL/TLS context here.
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Journal')),
-      body: GridView.builder(
-        itemCount: entries.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        itemBuilder: (context, index) {
-          final entry = entries[index];
-          return Card(
-            child: Column(
-              children: [
-                Image(image: entry.image, fit: BoxFit.cover),
-                Text(entry.title),
-                Text(entry.date
-                    .toLocal()
-                    .toString()
-                    .split(' ')[0]), // Only show YYYY-MM-DD format
-                Expanded(
-                    child: SingleChildScrollView(child: Text(entry.content))),
-              ],
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // Add a new entry (can be a new page or a dialog)
-          final newEntry = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddJournalEntryScreen(),
-            ),
-          );
+  final connMessage = MqttConnectMessage()
+      .withClientIdentifier('flutter_client')
+      .startClean()
+      .withWillQos(MqttQos.atLeastOnce);
 
-          if (newEntry != null) {
-            setState(() {
-              entries.add(newEntry);
-            });
-          }
-        },
-        child: Icon(Icons.add),
-      ),
-    );
+  client.connectionMessage = connMessage;
+
+  try {
+    await client.connect('test', 'testing');
+  } catch (e) {
+    print('Exception: $e');
+    client.disconnect();
   }
+
+  if (client.connectionStatus!.state == MqttConnectionState.connected) {
+    print('MQTT client connected');
+  } else {
+    print('MQTT client connection failed - disconnecting');
+    client.disconnect();
+  }
+
+  return client;
 }

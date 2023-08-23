@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class WeatherWidget extends StatelessWidget {
+  const WeatherWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         color: Colors.blueAccent,
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: Row(
+      child: const Row(
         children: [
           Icon(Icons.wb_sunny, size: 50.0, color: Colors.white),
           SizedBox(width: 20.0),
