@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hydrobuddy/screens/journal_screen.dart';
-import 'package:hydrobuddy/screens/plant_id_screen.dart';
+import 'package:hydrobuddy/buddy.dart';
+import 'package:hydrobuddy/journal_screen.dart';
+import 'package:hydrobuddy/plant_id_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'buddy.dart';
 import 'weather_widget.dart';
 
 class GrafanaIframeScreen extends StatefulWidget {
+  const GrafanaIframeScreen({super.key});
+
   @override
   _GrafanaIframeScreenState createState() => _GrafanaIframeScreenState();
 }
@@ -19,21 +21,21 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
           // User swiped to the left
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Buddy()),
+            MaterialPageRoute(builder: (context) => const Buddy()),
           );
         }
       },
       child: Scaffold(
         appBar: AppBar(title: const Text('Grafanita')),
         body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
-              WeatherWidget(),
-              SizedBox(height: 20.0),
+              const WeatherWidget(),
+              const SizedBox(height: 20.0),
               GridView.count(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 children: List.generate(4, (index) {
                   // Assuming WebViewWidget is defined elsewhere
@@ -42,7 +44,7 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
                       ..setJavaScriptMode(JavaScriptMode.unrestricted)
                       ..setBackgroundColor(Colors.transparent)
                       ..loadRequest(Uri.parse(
-                          "http://172.28.8.16:3000/d/b38a5ce4-5268-443f-8dff-7757ae580b95/new-dashboard?orgId=1&from=1692741880402&to=1692763480404&viewPanel=1${index + 1}&kiosk"))
+                          "http://localhost:3000/d/b38a5ce4-5268-443f-8dff-7757ae580b95/new-dashboard?orgId=1&from=1692669388086&to=1692755788086&viewPanel=${index + 1}&kiosk"))
                       ..runJavaScript("""
                           var meta = document.createElement('meta');
                           meta.name = "viewport";
@@ -52,7 +54,7 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
                   );
                 }),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               firstRow(),
               secondRow(),
               thirdRow(),
@@ -71,16 +73,16 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => JournalScreen()),
+              MaterialPageRoute(builder: (context) => const JournalScreen()),
             );
           },
-          child: Text('Journal'),
+          child: const Text('Journal'),
         ),
         ElevatedButton(
           onPressed: () {
             // Handle Control Panel button press
           },
-          child: Text('Control Panel'),
+          child: const Text('Control Panel'),
         ),
       ],
     );
@@ -94,13 +96,13 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
           onPressed: () {
             // Handle Achievements button press
           },
-          child: Text('Achievements'),
+          child: const Text('Achievements'),
         ),
         ElevatedButton(
           onPressed: () {
             // Handle Language button press
           },
-          child: Text('Language'),
+          child: const Text('Language'),
         ),
       ],
     );
@@ -114,10 +116,10 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => PlantIDScreen()),
+              MaterialPageRoute(builder: (context) => const PlantIDScreen()),
             );
           },
-          child: Text('WhatThePlant?!'),
+          child: const Text('WhatThePlant?!'),
         ),
       ],
     );

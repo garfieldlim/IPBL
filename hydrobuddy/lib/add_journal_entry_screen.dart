@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'journal_screen.dart';
 
 class AddJournalEntryScreen extends StatefulWidget {
+  const AddJournalEntryScreen({super.key});
+
   @override
   _AddJournalEntryScreenState createState() => _AddJournalEntryScreenState();
 }
@@ -14,7 +16,7 @@ class _AddJournalEntryScreenState extends State<AddJournalEntryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add Entry')),
+      appBar: AppBar(title: const Text('Add Entry')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -23,18 +25,18 @@ class _AddJournalEntryScreenState extends State<AddJournalEntryScreen> {
               onPressed: () async {
                 // For this demonstration, just using a placeholder image.
                 // In a real scenario, you'd integrate an image picker.
-                imageProvider = NetworkImage('https://via.placeholder.com/150');
+                imageProvider = const NetworkImage('https://via.placeholder.com/150');
                 setState(() {});
               },
-              child: Text('Add Photo'),
+              child: const Text('Add Photo'),
             ),
             TextField(
                 controller: titleController,
-                decoration: InputDecoration(labelText: 'Title')),
+                decoration: const InputDecoration(labelText: 'Title')),
             Expanded(
                 child: TextField(
                     controller: contentController,
-                    decoration: InputDecoration(labelText: 'Content'),
+                    decoration: const InputDecoration(labelText: 'Content'),
                     maxLines: null)),
           ],
         ),
@@ -51,7 +53,7 @@ class _AddJournalEntryScreenState extends State<AddJournalEntryScreen> {
             );
           }
         },
-        child: Icon(Icons.check),
+        child: const Icon(Icons.check),
       ),
     );
   }

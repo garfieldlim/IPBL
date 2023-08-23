@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,12 +13,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: GrafanaIframeScreen(),
+      home: const GrafanaIframeScreen(),
     );
   }
 }
 
 class GrafanaIframeScreen extends StatefulWidget {
+  const GrafanaIframeScreen({super.key});
+
   @override
   _GrafanaIframeScreenState createState() => _GrafanaIframeScreenState();
 }

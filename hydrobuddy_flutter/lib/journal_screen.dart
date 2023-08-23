@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hydrobuddy_flutter/add_journal_entry_screen.dart';
+import 'package:hydrobuddy/add_journal_entry_screen.dart';
 
 class JournalEntry {
   final String title;
@@ -11,6 +11,8 @@ class JournalEntry {
 }
 
 class JournalScreen extends StatefulWidget {
+  const JournalScreen({super.key});
+
   @override
   _JournalScreenState createState() => _JournalScreenState();
 }
@@ -21,10 +23,10 @@ class _JournalScreenState extends State<JournalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Journal')),
+      appBar: AppBar(title: const Text('Journal')),
       body: GridView.builder(
         itemCount: entries.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
         ),
         itemBuilder: (context, index) {
@@ -51,7 +53,7 @@ class _JournalScreenState extends State<JournalScreen> {
           final newEntry = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddJournalEntryScreen(),
+              builder: (context) => const AddJournalEntryScreen(),
             ),
           );
 
@@ -61,7 +63,7 @@ class _JournalScreenState extends State<JournalScreen> {
             });
           }
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

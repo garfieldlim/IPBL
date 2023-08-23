@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,12 +13,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: GrafanaIframeScreen(),
+      home: const GrafanaIframeScreen(),
     );
   }
 }
 
 class GrafanaIframeScreen extends StatefulWidget {
+  const GrafanaIframeScreen({super.key});
+
   @override
   _GrafanaIframeScreenState createState() => _GrafanaIframeScreenState();
 }
@@ -30,21 +34,21 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
           // User swiped to the left
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => BlankScreen()),
+            MaterialPageRoute(builder: (context) => const BlankScreen()),
           );
         }
       },
       child: Scaffold(
         appBar: AppBar(title: const Text('Grafanita')),
         body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
-              WeatherWidget(),
-              SizedBox(height: 20.0),
+              const WeatherWidget(),
+              const SizedBox(height: 20.0),
               GridView.count(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 children: List.generate(4, (index) {
                   // Assuming WebViewWidget is defined elsewhere
@@ -63,7 +67,7 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
                   );
                 }),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               firstRow(),
               secondRow(),
             ],
@@ -81,13 +85,13 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
           onPressed: () {
             // Handle Journal button press
           },
-          child: Text('Journal'),
+          child: const Text('Journal'),
         ),
         ElevatedButton(
           onPressed: () {
             // Handle Control Panel button press
           },
-          child: Text('Control Panel'),
+          child: const Text('Control Panel'),
         ),
       ],
     );
@@ -101,13 +105,13 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
           onPressed: () {
             // Handle Achievements button press
           },
-          child: Text('Achievements'),
+          child: const Text('Achievements'),
         ),
         ElevatedButton(
           onPressed: () {
             // Handle Language button press
           },
-          child: Text('Language'),
+          child: const Text('Language'),
         ),
       ],
     );
@@ -115,15 +119,17 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
 }
 
 class WeatherWidget extends StatelessWidget {
+  const WeatherWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         color: Colors.blueAccent,
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: Row(
+      child: const Row(
         children: [
           Icon(Icons.wb_sunny, size: 50.0, color: Colors.white),
           SizedBox(width: 20.0),
@@ -146,13 +152,15 @@ class WeatherWidget extends StatelessWidget {
 }
 
 class BlankScreen extends StatelessWidget {
+  const BlankScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Blank Screen"),
+        title: const Text("Blank Screen"),
       ),
-      body: Center(
+      body: const Center(
         child: Text("This is a blank screen."),
       ),
     );

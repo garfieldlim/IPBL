@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MaterialApp(home: Buddy()));
+void main() => runApp(const MaterialApp(home: Buddy()));
 
 class Message {
   final String text;
@@ -10,6 +10,8 @@ class Message {
 }
 
 class Buddy extends StatefulWidget {
+  const Buddy({super.key});
+
   @override
   _BuddyState createState() => _BuddyState();
 }
@@ -22,7 +24,7 @@ class _BuddyState extends State<Buddy> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat with Buddy"),
+        title: const Text("Chat with Buddy"),
       ),
       body: Column(
         children: <Widget>[
@@ -37,8 +39,8 @@ class _BuddyState extends State<Buddy> {
                 return Align(
                   alignment: alignment,
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color:
                           message.byUser ? Colors.blue[100] : Colors.green[100],
@@ -57,13 +59,13 @@ class _BuddyState extends State<Buddy> {
                 Expanded(
                   child: TextField(
                     controller: _controller,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Type a message",
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   onPressed: () {
                     _sendMessage(_controller.text);
                   },
@@ -84,7 +86,7 @@ class _BuddyState extends State<Buddy> {
       _controller.clear();
 
       // A simple Buddy response logic
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         setState(() {
           _messages
               .add(Message("Hello! I'm Buddy. How can I assist you?", false));

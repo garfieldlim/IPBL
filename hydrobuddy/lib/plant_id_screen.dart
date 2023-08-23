@@ -4,12 +4,14 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class PlantIDScreen extends StatefulWidget {
+  const PlantIDScreen({super.key});
+
   @override
   _PlantIDScreenState createState() => _PlantIDScreenState();
 }
 
 class _PlantIDScreenState extends State<PlantIDScreen> {
-  ImagePicker _picker = ImagePicker();
+  final ImagePicker _picker = ImagePicker();
   XFile? _selectedImage;
 
   Future<void> pickImage() async {
@@ -26,15 +28,15 @@ class _PlantIDScreenState extends State<PlantIDScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('WhatThePlant?!')),
+      appBar: AppBar(title: const Text('WhatThePlant?!')),
       body: Center(
         child: _selectedImage == null
-            ? Text('No image selected.')
+            ? const Text('No image selected.')
             : Image.file(File(_selectedImage!.path)),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: pickImage,
-        child: Icon(Icons.add_a_photo),
+        child: const Icon(Icons.add_a_photo),
       ),
     );
   }
