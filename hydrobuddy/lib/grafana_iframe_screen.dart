@@ -26,39 +26,40 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Grafanita')),
-        body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Column(
-            children: [
-              const WeatherWidget(),
-              const SizedBox(height: 20.0),
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                children: List.generate(4, (index) {
-                  // Assuming WebViewWidget is defined elsewhere
-                  return WebViewWidget(
-                    controller: WebViewController()
-                      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-                      ..setBackgroundColor(Colors.transparent)
-                      ..loadRequest(Uri.parse(
-                          "http://localhost:3000/d/b38a5ce4-5268-443f-8dff-7757ae580b95/new-dashboard?orgId=1&from=1692669388086&to=1692755788086&viewPanel=${index + 1}&kiosk"))
-                      ..runJavaScript("""
-                          var meta = document.createElement('meta');
-                          meta.name = "viewport";
-                          meta.content = "initial-scale=0.1";
-                          document.getElementsByTagName('head')[0].appendChild(meta);
-                      """),
-                  );
-                }),
-              ),
-              const SizedBox(height: 20.0),
-              firstRow(),
-              secondRow(),
-              thirdRow(),
-            ],
+        body: SafeArea(
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                const WeatherWidget(),
+                const SizedBox(height: 20.0),
+                Container(
+                  height: 400, // Adjust this to your preferred WebView height
+                  child: PageView.builder(
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return WebViewWidget(
+                        controller: WebViewController()
+                          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                          ..setBackgroundColor(Colors.transparent)
+                          ..loadRequest(Uri.parse(
+                              "http://172.28.8.16:3000/d/b38a5ce4-5268-443f-8dff-7757ae580b95/new-dashboard?orgId=1&from=1692746734645&to=1692746934219&viewPanel=1"))
+                          ..runJavaScript("""
+                              var meta = document.createElement('meta');
+                              meta.name = "viewport";                                 
+                              meta.content = "initial-scale=0.1";
+                              document.getElementsByTagName('head')[0].appendChild(meta);
+                          """),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                firstRow(),
+                secondRow(),
+                thirdRow(),
+              ],
+            ),
           ),
         ),
       ),
