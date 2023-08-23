@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:hydrobuddy/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,6 +12,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String _selectedLanguage = "en";
+  late AppLocalizations _translations;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTranslations();
+  }
+
+  _loadTranslations() async {
+    _translations = AppLocalizations(Locale(_selectedLanguage));
+    await _translations.load();
+    setState(() {}); // Rebuild widget with new translations
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +34,21 @@ class _LoginPageState extends State<LoginPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          DropdownButton<String>(
+            value: _selectedLanguage,
+            items: <String>['en', 'es'].map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (newValue) async {
+              setState(() {
+                _selectedLanguage = newValue!;
+                _loadTranslations();
+              });
+            },
+          ),
           Padding(
             padding: const EdgeInsets.all(35.0),
             child: Form(
