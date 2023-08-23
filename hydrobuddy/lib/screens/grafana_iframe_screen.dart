@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hydrobuddy_flutter/buddy.dart';
-import 'package:hydrobuddy_flutter/journal_screen.dart';
-import 'package:hydrobuddy_flutter/plant_id_screen.dart';
+import 'package:hydrobuddy/screens/journal_screen.dart';
+import 'package:hydrobuddy/screens/plant_id_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'buddy.dart';
 import 'weather_widget.dart';
@@ -43,7 +42,7 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
                       ..setJavaScriptMode(JavaScriptMode.unrestricted)
                       ..setBackgroundColor(Colors.transparent)
                       ..loadRequest(Uri.parse(
-                          "http://172.28.8.16:3000/d/b38a5ce4-5268-443f-8dff-7757ae580b95/new-dashboard?orgId=1&from=1692669388086&to=1692755788086&viewPanel=${index + 1}&kiosk"))
+                          "http://172.28.8.16:3000/d/b38a5ce4-5268-443f-8dff-7757ae580b95/new-dashboard?orgId=1&from=1692741880402&to=1692763480404&viewPanel=1${index + 1}&kiosk"))
                       ..runJavaScript("""
                           var meta = document.createElement('meta');
                           meta.name = "viewport";
