@@ -2,10 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:hydrobuddy/app_localizations.dart';
-import 'package:hydrobuddy/language_provider.dart';
 import 'package:hydrobuddy/mqttgrafana.dart';
-import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -16,6 +13,32 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String _selectedLanguage = "en";
+
+  // Map for translations
+  Map<String, Map<String, String>> translations = {
+    'en': {
+      'email': 'Email',
+      'enter_email': 'Enter your email',
+      'password': 'Password',
+      'enter_password': 'Enter your password',
+      'login': 'Login',
+    },
+    'zh_TW': {
+      'email': '電子郵件',
+      'enter_email': '輸入您的電子郵件',
+      'password': '密碼',
+      'enter_password': '輸入您的密碼',
+      'login': '登錄',
+    },
+    'jp': {
+      'email': 'メール',
+      'enter_email': 'メールアドレスを入力してください',
+      'password': 'パスワード',
+      'enter_password': 'パスワードを入力してください',
+      'login': 'ログイン',
+    },
+    // ... Add more languages here as needed
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +61,31 @@ class _LoginPageState extends State<LoginPage> {
                 print('Selected language: $_selectedLanguage');
               });
 
-              var langProvider =
-                  Provider.of<LanguageProvider>(context, listen: false);
-              Locale newLocale;
+              // var langProvider =
+              // Provider.of<LanguageProvider>(context, listen: false);
+              // Locale newLocale;
 
               switch (_selectedLanguage) {
                 case 'en':
-                  newLocale = Locale('en');
+                  // newLocale = Locale('en');
                   break;
                 case 'zh_TW':
-                  newLocale = Locale('zh', 'TW');
+                  // newLocale = Locale('zh', 'TW');
                   break;
                 case 'ja':
-                  newLocale = Locale('ja');
+                  // newLocale = Locale('ja');
                   break;
                 default:
-                  newLocale = Locale('en');
+                // newLocale = Locale('en');
               }
 
-              langProvider.changeLocale(newLocale);
+              // langProvider.changeLocale(newLocale);
+
+              // Navigate back to LoginPage in the new language.
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => LoginPage()),
+              // );
             },
           ),
           Padding(
@@ -99,13 +128,10 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextFormField(
                         obscureText: false,
                         decoration: InputDecoration(
-                          hintText: AppLocalizations.of(context)
-                                  ?.translate('enter_email') ??
-                              '',
+                          hintText: translations[_selectedLanguage]
+                              ?['enter_email'],
                           hintStyle: TextStyle(color: Colors.white),
-                          labelText: AppLocalizations.of(context)
-                                  ?.translate('email') ??
-                              'Default Value',
+                          labelText: translations[_selectedLanguage]?['email'],
                           labelStyle: TextStyle(color: Colors.white),
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
@@ -125,13 +151,11 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextFormField(
                         obscureText: true,
                         decoration: InputDecoration(
-                          hintText: AppLocalizations.of(context)
-                                  ?.translate('enter_password') ??
-                              'Default Password Hint',
+                          hintText: translations[_selectedLanguage]
+                              ?['enter_password'],
                           hintStyle: TextStyle(color: Colors.white),
-                          labelText: AppLocalizations.of(context)
-                                  ?.translate('password') ??
-                              'Default Password',
+                          labelText: translations[_selectedLanguage]
+                              ?['password'],
                           labelStyle: TextStyle(color: Colors.white),
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
@@ -147,18 +171,20 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 20),
                     CupertinoButton(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        child: Text('Login',
-                            style: TextStyle(
-                                color: Color(0xff96b9d0), fontSize: 20)),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => GrafanaIframeScreen()),
-                          );
-                        }),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      child: Text(
+                          translations[_selectedLanguage]?['login'] ?? 'Login',
+                          style: TextStyle(
+                              color: Color(0xff96b9d0), fontSize: 20)),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GrafanaIframeScreen()),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
