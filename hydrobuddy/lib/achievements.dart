@@ -51,8 +51,10 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffbfd4db),
       appBar: AppBar(
         title: Text('Achievements'),
+        backgroundColor: Color(0xff96b9d0),
       ),
       body: ListView.builder(
         itemCount: achievements.length,

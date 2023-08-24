@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:hydrobuddy/app_localizations.dart';
+import 'package:hydrobuddy/language_provider.dart';
 import 'package:hydrobuddy/mqttgrafana.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,19 +16,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String _selectedLanguage = "en";
-  late AppLocalizations _translations;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTranslations();
-  }
-
-  _loadTranslations() async {
-    _translations = AppLocalizations(Locale(_selectedLanguage));
-    await _translations.load();
-    setState(() {}); // Rebuild widget with new translations
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +26,37 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           DropdownButton<String>(
             value: _selectedLanguage,
-            items: <String>['en', 'zh_TW', 'ja'].map((String value) {
+            items: <String>['en', 'zh_TW', 'jp'].map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
               );
             }).toList(),
-            onChanged: (newValue) async {
+            onChanged: (newValue) {
               setState(() {
                 _selectedLanguage = newValue!;
-                _loadTranslations();
+                print('Selected language: $_selectedLanguage');
               });
+
+              var langProvider =
+                  Provider.of<LanguageProvider>(context, listen: false);
+              Locale newLocale;
+
+              switch (_selectedLanguage) {
+                case 'en':
+                  newLocale = Locale('en');
+                  break;
+                case 'zh_TW':
+                  newLocale = Locale('zh', 'TW');
+                  break;
+                case 'ja':
+                  newLocale = Locale('ja');
+                  break;
+                default:
+                  newLocale = Locale('en');
+              }
+
+              langProvider.changeLocale(newLocale);
             },
           ),
           Padding(
@@ -88,32 +97,26 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: EdgeInsets.all(20.0),
                       child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your email',
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)
+                                  ?.translate('enter_email') ??
+                              '',
                           hintStyle: TextStyle(color: Colors.white),
-                          labelText: 'Email',
+                          labelText: AppLocalizations.of(context)
+                                  ?.translate('email') ??
+                              'Default Value',
                           labelStyle: TextStyle(color: Colors.white),
                           border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey), // This is the change
+                            borderSide: BorderSide(color: Colors.grey),
                           ),
                           enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey), // This is the change
+                            borderSide: BorderSide(color: Colors.grey),
                           ),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey), // This is the change
+                            borderSide: BorderSide(color: Colors.grey),
                           ),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          // Add more validation logic here if needed
-                          return null;
-                        },
                       ),
                     ),
                     SizedBox(height: 20),
@@ -122,30 +125,24 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextFormField(
                         obscureText: true,
                         decoration: InputDecoration(
-                          hintText: 'Enter your password',
+                          hintText: AppLocalizations.of(context)
+                                  ?.translate('enter_password') ??
+                              'Default Password Hint',
                           hintStyle: TextStyle(color: Colors.white),
-                          labelText: 'Password',
+                          labelText: AppLocalizations.of(context)
+                                  ?.translate('password') ??
+                              'Default Password',
                           labelStyle: TextStyle(color: Colors.white),
                           border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey), // This is the change
+                            borderSide: BorderSide(color: Colors.grey),
                           ),
                           enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey), // This is the change
+                            borderSide: BorderSide(color: Colors.grey),
                           ),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey), // This is the change
+                            borderSide: BorderSide(color: Colors.grey),
                           ),
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          // Add more validation logic here if needed
-                          return null;
-                        },
                       ),
                     ),
                     SizedBox(height: 20),

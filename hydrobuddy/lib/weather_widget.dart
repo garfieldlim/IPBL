@@ -36,7 +36,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: Colors.blueAccent,
+        color: Color(0xffbfd4db),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Row(

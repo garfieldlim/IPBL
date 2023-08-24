@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hydrobuddy/achievements.dart';
 import 'dart:io';
 import 'package:hydrobuddy/buddy.dart';
 import 'package:hydrobuddy/control_panel.dart';
@@ -32,7 +31,6 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
 
     if (client.connectionStatus!.state == MqttConnectionState.connected) {
       print('MQTT client connected');
-
       client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> messages) {
         final MqttPublishMessage message =
             messages[0].payload as MqttPublishMessage;
@@ -95,10 +93,9 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
           child: SingleChildScrollView(
             physics: const NeverScrollableScrollPhysics(),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const WeatherWidget(),
-                const SizedBox(height: 150),
+                const SizedBox(height: 20.0),
                 Container(
                   height: MediaQuery.of(context).size.height *
                       0.4, // Adjust as per your needs
@@ -132,7 +129,6 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Color(0xffbfd4db),
           currentIndex: _currentIndex,
           onTap: (index) {
             setState(() {
@@ -155,14 +151,9 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
                 break;
               case 2:
                 // Handle Achievements button press
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AchievementsScreen()),
-                );
                 break;
               case 3:
                 // Handle Language button press
-
                 break;
               case 4:
                 Navigator.push(
@@ -202,33 +193,30 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
 }
 
 Widget _buildChart(List<double> dataPoints, String title) {
-  return Center(
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: LineChart(
-        LineChartData(
-          gridData: FlGridData(show: true),
-          lineBarsData: [
-            LineChartBarData(
-              spots: dataPoints
-                  .asMap()
-                  .entries
-                  .map((e) => FlSpot(e.key.toDouble(), e.value))
-                  .toList(),
-              isCurved: true,
-              barWidth: 4,
-              isStrokeCapRound: true,
-            ),
-          ],
-        ),
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: LineChart(
+      LineChartData(
+        gridData: FlGridData(show: true),
+        lineBarsData: [
+          LineChartBarData(
+            spots: dataPoints
+                .asMap()
+                .entries
+                .map((e) => FlSpot(e.key.toDouble(), e.value))
+                .toList(),
+            isCurved: true,
+            barWidth: 4,
+            isStrokeCapRound: true,
+          ),
+        ],
       ),
     ),
   );
 }
 
 Future<MqttServerClient> setupMQTTClient() async {
-  final client =
-      MqttServerClient('x09ef00e.ala.us-east-1.emqxsl.com', 'flutter_client');
+  final client = MqttServerClient('#inserthostherebesties', 'flutter_client');
   client.port = 8883;
   client.logging(on: true);
   client.secure = true;
