@@ -150,7 +150,7 @@ class _GrafanaIframeScreenState extends State<GrafanaIframeScreen> {
                 // Handle Control Panel button press
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SwitchScreen()),
+                  MaterialPageRoute(builder: (context) => ControlPanel()),
                 );
                 break;
               case 2:
